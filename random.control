@@ -1,0 +1,3 @@
+comment = 'random functions'
+default_version = '0.0.1'
+schema = random
