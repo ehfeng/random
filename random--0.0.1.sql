@@ -66,7 +66,7 @@ create or replace function random.uniform(timestamp, timestamp) returns timestam
     select make_interval(secs := random() * extract(epoch from $2 - $1)) + $1
     $$ language sql;
 
-create or replace function random.triangular(low numeric default 0, high numeric default 1, mode numeric default null) returns numeric as $$
+create or replace function random.triangular(low double precision default 0.0, high double precision default 1.0, mode double precision default null) returns numeric as $$
     declare
         u float;
         c float;
@@ -92,3 +92,11 @@ create or replace function random.triangular(low numeric default 0, high numeric
         return final_low + (final_high - final_low) * |/ (u * c);
     end;
     $$ language plpgsql;
+
+create or replace function random.triangular(low numeric default 0, high numeric default 1, mode double precision default null) returns numeric as $$
+    select random.triangular(low::float, high::float, mode);
+    $$ language sql;
+
+create or replace function random.triangular(low timestamp, high timestamp, mode timestamp) returns timestamp as $$
+    select to_timestamp(random.triangular(extract(epoch from low), extract(epoch from high), extract(epoch from mode)))::timestamp without time zone;
+    $$ language sql;

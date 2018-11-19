@@ -15,3 +15,5 @@ select random.uniform(3, 6);
 select random.uniform(1.6, 3.9);
 select random.uniform('2018-10-01'::timestamp, '2018-10-02'::timestamp);
 select random.triangular(0, 1, 1);
+select random.triangular(0.0, 1.0, 1.0);
+select random.triangular('2018-10-01'::timestamp, '2018-10-02'::timestamp, '2018-10-02'::timestamp);
