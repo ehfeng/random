@@ -1,0 +1,92 @@
+create extension random;
+create language plpython3u;
+select setseed(0);
+ setseed 
+---------
+ 
+(1 row)
+
+select random.shuffle('{1,2,3,4,5,6}'::integer[]);
+    shuffle    
+---------------
+ {4,3,5,1,2,6}
+(1 row)
+
+select random.choice('{1,2,3,4,5}'::integer[]);
+ choice 
+--------
+      4
+(1 row)
+
+select random.choice('{"a", "b", "c"}'::text[]);
+ choice 
+--------
+ a
+(1 row)
+
+select random.choices('{"a", "b", "c"}'::text[], 2);
+ choices 
+---------
+ {b,a}
+(1 row)
+
+select random.choices('{"a", "b", "c"}'::text[], 2);
+ choices 
+---------
+ {c,a}
+(1 row)
+
+select random.choices('{"a", "b", "c"}'::text[], '{1,2,3}'::integer[], 2);
+ choices 
+---------
+ {c,b}
+(1 row)
+
+select random.randrange(1, 10, 2);
+ randrange 
+-----------
+         3
+(1 row)
+
+select random.randrange(6);
+ randrange 
+-----------
+         1
+(1 row)
+
+select random.randrange('2018-10-01'::date, '2018-11-01'::date, 7);
+ randrange  
+------------
+ 10-08-2018
+(1 row)
+
+select random.randrange('2018-10-01'::timestamp, '2018-11-01'::timestamp, '7 day'::interval);
+        randrange         
+--------------------------
+ Mon Oct 22 00:00:00 2018
+(1 row)
+
+select random.uniform(3, 6);
+     uniform      
+------------------
+ 5.24359228275716
+(1 row)
+
+select random.uniform(1.6, 3.9);
+     uniform      
+------------------
+ 2.88466602433473
+(1 row)
+
+select random.uniform('2018-10-01'::timestamp, '2018-10-02'::timestamp);
+             uniform             
+---------------------------------
+ Mon Oct 01 10:58:38.253605 2018
+(1 row)
+
+select random.triangular(0, 1, 1);
+    triangular     
+-------------------
+ 0.806691929834352
+(1 row)
+

@@ -1,0 +1,17 @@
+create extension random;
+create language plpython3u;
+select setseed(0);
+select random.shuffle('{1,2,3,4,5,6}'::integer[]);
+select random.choice('{1,2,3,4,5}'::integer[]);
+select random.choice('{"a", "b", "c"}'::text[]);
+select random.choices('{"a", "b", "c"}'::text[], 2);
+select random.choices('{"a", "b", "c"}'::text[], 2);
+select random.choices('{"a", "b", "c"}'::text[], '{1,2,3}'::integer[], 2);
+select random.randrange(1, 10, 2);
+select random.randrange(6);
+select random.randrange('2018-10-01'::date, '2018-11-01'::date, 7);
+select random.randrange('2018-10-01'::timestamp, '2018-11-01'::timestamp, '7 day'::interval);
+select random.uniform(3, 6);
+select random.uniform(1.6, 3.9);
+select random.uniform('2018-10-01'::timestamp, '2018-10-02'::timestamp);
+select random.triangular(0, 1, 1);

@@ -1,2 +1,2 @@
-regession.diffs
-regession.out
+regression.*
+results/*
