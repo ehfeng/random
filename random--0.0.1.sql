@@ -46,6 +46,10 @@ create or replace function random.randrange(start timestamp, stop timestamp, ste
     select start + step * trunc(random() * trunc(extract(epoch from stop - start) / extract(epoch from step)))::integer
     $$ language sql;
 
+create or replace function random.randrange(start timestamp with time zone, stop timestamp with time zone, step interval) returns timestamp with time zone as $$
+    select start + step * trunc(random() * trunc(extract(epoch from stop - start) / extract(epoch from step)))::integer
+    $$ language sql;
+
 create or replace function random.uniform(integer, integer) returns double precision as $$
     /* Return a random integer between a and b, inclusive */
     select random() * ($2 - $1 + 1) + $1;
@@ -62,6 +66,11 @@ create or replace function random.uniform(double precision, double precision) re
     $$ language sql;
 
 create or replace function random.uniform(timestamp, timestamp) returns timestamp as $$
+    /* Return a random integer between a and b, inclusive */
+    select make_interval(secs := random() * extract(epoch from $2 - $1)) + $1
+    $$ language sql;
+
+create or replace function random.uniform(timestamp with time zone, timestamp with time zone) returns timestamp with time zone as $$
     /* Return a random integer between a and b, inclusive */
     select make_interval(secs := random() * extract(epoch from $2 - $1)) + $1
     $$ language sql;
@@ -97,6 +106,6 @@ create or replace function random.triangular(low numeric default 0, high numeric
     select random.triangular(low::float, high::float, mode);
     $$ language sql;
 
-create or replace function random.triangular(low timestamp, high timestamp, mode timestamp) returns timestamp as $$
-    select to_timestamp(random.triangular(extract(epoch from low), extract(epoch from high), extract(epoch from mode)))::timestamp without time zone;
+create or replace function random.triangular(low timestamp with time zone, high timestamp with time zone, mode timestamp with time zone) returns timestamp with time zone as $$
+    select to_timestamp(random.triangular(extract(epoch from low), extract(epoch from high), extract(epoch from mode)));
     $$ language sql;
